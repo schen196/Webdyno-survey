@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+let mongoose = require('mongoose');
+
+let Survey = require('../models/survey');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,12 +18,5 @@ router.get('/home', function(req, res, next) {
 router.get('/create', function(req, res, next) {
   res.render('index', { title: 'Create' });
 });
-
-/* GET survey page. */
-router.get('/surveys', function(req, res, next) {
-  res.render('index', { title: 'Surveys' });
-});
-
-
 
 module.exports = router;

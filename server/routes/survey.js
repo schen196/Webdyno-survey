@@ -6,7 +6,6 @@ let Survey = require('../models/survey');
 
 /* GET Route for surveys page - READ operation */
 router.get('/', function(req, res, next) {
-
     Survey.find((err, surveyList) => {
         if(err)
         {
@@ -14,15 +13,12 @@ router.get('/', function(req, res, next) {
         }
         else
         {
-            //console.log(surveyList);
-            res.render('./views/partials/surveys', 
+            res.render('partials/surveys', 
             {
             title: 'Open Surveys', 
-            SurveyList: surveyList,
+            SurveyList: surveyList});
+      }
     });
-    }
-});
-
-});
+  });
 
 module.exports = router;

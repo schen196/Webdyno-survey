@@ -17,7 +17,7 @@
                     <th class="text-center">Survey Name</th>
                     <th class="text-center">Owner</th>
                     <th class="text-center">Question 1</th>
-                    <th class="text-center">Question 2/th>
+                    <th class="text-center">Question 2</th>
                     <th class="text-center">Question 3</th>
                     <th class="text-center"></th>
                     <th class="text-center"></th>
@@ -25,7 +25,6 @@
                 </tr>
 
                 <!-- Repeatable Template Row-->
-
                 <% for(let count = 0; count < SurveyList.length; count++) { %>
                     <tr>
                         <td class="text-center"><%= SurveyList[count].name %></td>
@@ -33,7 +32,6 @@
                         <td class="text-center"><%= SurveyList[count].q1 %></td>
                         <td class="text-center"><%= SurveyList[count].q2 %></td>
                         <td class="text-center"><%= SurveyList[count].q3 %></td>
-
                     </tr>
                 <% } %>
             </table>
