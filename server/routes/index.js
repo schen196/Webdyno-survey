@@ -15,7 +15,7 @@ router.get('/home', function(req, res, next) {
 });
 
 /* GET Create Survey page. */
-router.get('/create', function(req, res, next) {
+router.get('/surveys/create', function(req, res, next) {
   res.render('index', { title: 'Create' });
 });
 
