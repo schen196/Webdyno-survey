@@ -1,6 +1,5 @@
 <%- include ../partials/header.ejs%>
 
-
 <!-- Content for the Create Survey Page-->
 <div class="container">
     <div class="row">
@@ -13,7 +12,9 @@
                 <input type="text" class="form-control"
                 id="nameTextField"
                 placeholder="Enter Survey Name"
-                name="name" required>
+                name="name"
+                value="<%= survey.name %>"
+                required>
             </div>
 
             <br>
@@ -23,7 +24,9 @@
                 <input type="text" class="form-control"
                 id="ownerTextField"
                 placeholder="Enter Survey Owner"
-                name="owner" required>
+                name="owner"
+                value="<%= survey.owner %>"
+                required>
             </div>
 
             <br>
@@ -33,7 +36,9 @@
               <input type="text" class="form-control"
               id="q1TextField"
               placeholder="Enter Question 1"
-              name="q1" required>
+              name="q1"
+              value="<%= survey.q1 %>"
+              required>
             </div>
 
           <br>
@@ -43,7 +48,9 @@
             <input type="text" class="form-control"
             id="q2TextField"
             placeholder="Enter Question 2"
-            name="q2" required>
+            name="q2"
+            value="<%= survey.q2 %>"
+            required>
           </div>
 
           <br>
@@ -53,13 +60,15 @@
             <input type="text" class="form-control"
             id="q3TextField"
             placeholder="Enter Question 3"
-            name="q3" required>
+            name="q3"
+            value="<%= survey.q3 %>"
+            required>
           </div>
 
           <br>
 
             <button class="btn btn-primary" type="submit">
-                <i class="fas fa-edit"></i> Submit</button>
+                <i class="fas fa-edit"></i> Update</button>
 
                 <a href="/surveys" class="btn btn-warning"><i class="fas fa-undo"></i> Cancel</a>
 
