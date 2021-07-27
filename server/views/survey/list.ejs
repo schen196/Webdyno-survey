@@ -22,10 +22,8 @@
                     <th class="text-center">Question 3</th>
                     <th class="text-center"></th>
                     <th class="text-center"></th>
-
+                    <th class="text-center"></th>
                 </tr>
-
-                
 
                 <!-- Repeatable Template Row-->
                 <% for(let count = 0; count < SurveyList.length; count++) { %>
@@ -42,6 +40,10 @@
                         <td class="text-center">
                             <a href="/surveys/delete/<%= SurveyList[count]._id %>" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash-alt"></i> Delete</a>
+                        </td>
+                        <td class="text-center">
+                            <a href="/surveys/answer/<%= SurveyList[count]._id %>" class="btn btn-info btn-sm">
+                            <i class="fas fa-list-ol"></i> Answer</a>
                         </td>
                     </tr>
                     
