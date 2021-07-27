@@ -3,6 +3,25 @@ let router = express.Router();
 let mongoose = require('mongoose');
 
 let Survey = require('../models/survey');
+//create User Model Instance
+let userModel = require('../models/user');
+let User = userModel.User; //alias
+
+// added
+let passport = require('passport');
+
+//helper function for guard purposes
+function requireAuth(req, res, next)
+{
+    //check if the user is logged in
+    if(!req.isAuthenticated())
+    {
+        return res.redirect('/login');
+    }
+    next();
+}
+
+// end of added
 
 /* GET Route for surveys page - READ operation */
 router.get('/', function(req, res, next) {
@@ -16,19 +35,21 @@ router.get('/', function(req, res, next) {
             res.render('survey/list', 
             {
             title: 'Surveys', 
-            SurveyList: surveyList});
+            SurveyList: surveyList,
+            displayName: req.user ? req.user.displayName : ''});
       }
     });
   });
 
 /* GET Route for displaying Add page - CREATE operation */
-router.get('/create', (req, res, next) => {
+router.get('/create', requireAuth, (req, res, next) => {
   res.render('survey/create', {
-  title: 'Create'});
+  title: 'Create',
+  displayName: req.user ? req.user.displayName : ''});
 });
 
 /* POST Route for processing Add page - CREATE operation */
-router.post('/create', (req, res, next) => {
+router.post('/create', requireAuth, (req, res, next) => {
   let newSurvey = Survey({
     "name": req.body.name,
     "owner": req.body.owner,
@@ -52,7 +73,7 @@ router.post('/create', (req, res, next) => {
 });
 
 /* GET Route for displaying Edit page - UPDATE operation */
-router.get('/edit/:id', (req, res, next) => {
+router.get('/edit/:id', requireAuth, (req, res, next) => {
   let id = req.params.id;
 
   Survey.findById(id, (err, surveyToEdit) => {
@@ -64,13 +85,14 @@ router.get('/edit/:id', (req, res, next) => {
     else
     {
       //show the edit view
-      res.render('survey/edit', {title: 'Edit Survey', survey: surveyToEdit})
+      res.render('survey/edit', {title: 'Edit Survey', survey: surveyToEdit,
+      displayName: req.user ? req.user.displayName : ''})
     }
   });
 });
 
 /* POST Route for processing Edit page - UPDATE operation */
-router.post('/edit/:id', (req, res, next) => {
+router.post('/edit/:id', requireAuth, (req, res, next) => {
   let id = req.params.id
 
   let updatedSurvey = Survey({
@@ -96,7 +118,7 @@ router.post('/edit/:id', (req, res, next) => {
 });
 
 /* GET to perform Deletion - DELETE operation */
-router.get('/delete/:id', (req, res, next) => {
+router.get('/delete/:id', requireAuth, (req, res, next) => {
   let id = req.params.id;
   Survey.remove({_id: id}, (err) => {
     if(err)
