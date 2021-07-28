@@ -79,8 +79,10 @@ router.post('/create', requireAuth, (req, res, next) => {
 
 /* GET Route for displaying Edit page - UPDATE operation */
 router.get('/edit/:id', requireAuth, (req, res, next) => {
+  if (!getLoggedInUser()){
+    return res.redirect("/login");
+  }
   let id = req.params.id;
-
   Survey.findById(id, (err, surveyToEdit) => {
     if (err)
     {
@@ -98,8 +100,10 @@ router.get('/edit/:id', requireAuth, (req, res, next) => {
 
 /* POST Route for processing Edit page - UPDATE operation */
 router.post('/edit/:id', requireAuth, (req, res, next) => {
+  if (!getLoggedInUser()){
+    return res.redirect("/login");
+  }
   let id = req.params.id
-
   let updatedSurvey = Survey({
     "_id": id,
     "name": req.body.name,
@@ -124,6 +128,9 @@ router.post('/edit/:id', requireAuth, (req, res, next) => {
 
 /* GET to perform Deletion - DELETE operation */
 router.get('/delete/:id', requireAuth, (req, res, next) => {
+  if (!getLoggedInUser()){
+    return res.redirect("/login");
+  }
   let id = req.params.id;
   Survey.remove({_id: id}, (err) => {
     if(err)
