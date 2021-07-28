@@ -114,10 +114,9 @@ router.post('/register', (req, res, next) => {
   //instantiate a user object
   let newUser = new User({
       username: req.body.username,
-      //password: req.body.password
+      password: req.body.password,
       email: req.body.email,
-      displayName: req.body.displayName,
-      loggedInUser
+      displayName: req.body.displayName
   });
 
   User.register(newUser, req.body.password, (err) => {
@@ -137,14 +136,13 @@ router.post('/register', (req, res, next) => {
               title: 'Register',
               messages: req.flash('registerMessage'),
               displayName: req.user ? req.user.displayName : '',
-              loggedInUser
-          });
+              loggedInUser});
       }
       else
       {
           //if no error exists, then registration is successful
           //redirect the user and authenticate them
-
+        loggedInUser = newUser;
           return passport.authenticate('local')(req, res, () => {
               res.redirect('/surveys')
           });
