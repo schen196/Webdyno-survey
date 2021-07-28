@@ -10,6 +10,8 @@ let User = userModel.User; //alias
 // added
 let passport = require('passport');
 
+const { getLoggedInUser } = require("./index");
+
 //helper function for guard purposes
 function requireAuth(req, res, next)
 {
@@ -25,21 +27,24 @@ function requireAuth(req, res, next)
 
 /* GET Route for surveys page - READ operation */
 router.get('/', function(req, res, next) {
-    Survey.find((err, surveyList) => {
-        if(err)
-        {
-                return console.error(err);
-        }
-        else
-        {
-            res.render('survey/list', 
-            {
-            title: 'Surveys', 
-            SurveyList: surveyList,
-            displayName: req.user ? req.user.displayName : ''});
+  if (!getLoggedInUser()){
+    return res.redirect("/login");
+  }
+  Survey.find((err, surveyList) => {
+      if(err)
+      {
+              return console.error(err);
+      }
+      else
+      {
+          res.render('survey/list', 
+          {
+          title: 'Surveys', 
+          SurveyList: surveyList,
+          displayName: req.user ? req.user.displayName : ''});
       }
     });
-  });
+});
 
 /* GET Route for displaying Add page - CREATE operation */
 router.get('/create', requireAuth, (req, res, next) => {

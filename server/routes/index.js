@@ -6,26 +6,37 @@ let passport = require('passport');
 let Survey = require('../models/survey');
 let Response = require('../models/response');
 
+
 //create User Model Instance
 let userModel = require('../models/user');
 let User = userModel.User; //alias
 
+let loggedInUser = null;
+
+router.getLoggedInUser = () => loggedInUser;
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Home',
- displayName: req.user ? req.user.displayName : ''});
+    res.render('index', { title: 'Home',
+    displayName: req.user ? req.user.displayName : '',
+    loggedInUser
+    });
 });
 
 /* GET home page. */
 router.get('/home', function(req, res, next) {
-  res.render('index', { title: 'Home',
-  displayName: req.user ? req.user.displayName : ''});
+    res.render('index', { title: 'Home',
+    displayName: req.user ? req.user.displayName : '',
+    loggedInUser
+    });
 });
 
 /* GET Create Survey page. */
 router.get('/surveys/create', function(req, res, next) {
-  res.render('index', { title: 'Create',
-  displayName: req.user ? req.user.displayName : ''});
+    res.render('index', { title: 'Create',
+    displayName: req.user ? req.user.displayName : '',
+    loggedInUser
+    });
 });
 
 /* GET Route for displaying Login page */
@@ -37,7 +48,8 @@ router.get('/login', (req, res, next) => {
       {
           title: "Login",
           messages: req.flash('loginMessage'),
-          displayName: req.user ? req.user.displayName : ''
+          displayName: req.user ? req.user.displayName : '',
+          loggedInUser
       });
   }
   else
@@ -48,8 +60,7 @@ router.get('/login', (req, res, next) => {
 
 /* POST Route for processing Login page */
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local',
-  (err, user, info) => {
+    passport.authenticate('local', (err, user, info) => {
       //server error?
       if(err)
       {
@@ -59,7 +70,13 @@ router.post('/login', (req, res, next) => {
       if(!user) //if user does not exist
       {
           req.flash('loginMessage', 'Authentication Error');
-          return res.redirect('/login');
+          return res.render('auth/login',
+          {
+              title: "Login",
+              messages: req.flash('loginMessage'),
+              displayName: req.user ? req.user.displayName : '',
+              loggedInUser 
+          })
       }
       req.login(user, (err) => {
           //server error?
@@ -67,6 +84,7 @@ router.post('/login', (req, res, next) => {
           {
               return next(err);
           }
+          loggedInUser = user;
           return res.redirect('/surveys')
       });
   })(req, res, next);
@@ -81,7 +99,8 @@ router.get('/register', (req, res, next) => {
       {
           title: 'Register',
           messages: req.flash('registerMessage'),
-          displayName: req.user ? req.user.displayName : ''
+          displayName: req.user ? req.user.displayName : '',
+          loggedInUser
       });
   }
   else
@@ -97,7 +116,8 @@ router.post('/register', (req, res, next) => {
       username: req.body.username,
       //password: req.body.password
       email: req.body.email,
-      displayName: req.body.displayName
+      displayName: req.body.displayName,
+      loggedInUser
   });
 
   User.register(newUser, req.body.password, (err) => {
@@ -116,13 +136,13 @@ router.post('/register', (req, res, next) => {
           {
               title: 'Register',
               messages: req.flash('registerMessage'),
-              displayName: req.user ? req.user.displayName : ''
+              displayName: req.user ? req.user.displayName : '',
+              loggedInUser
           });
       }
       else
       {
           //if no error exists, then registration is successful
-
           //redirect the user and authenticate them
 
           return passport.authenticate('local')(req, res, () => {
@@ -135,6 +155,7 @@ router.post('/register', (req, res, next) => {
 /* GET to perform User Logout */
 router.get('/logout', (req, res, next) =>  {
   req.logout();
+  loggedInUser = null;
   res.redirect('/');
 });
 
