@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 let passport = require('passport');
 
 let Survey = require('../models/survey');
-let Response = require('../models/response');
+//let Response = require('../models/response');
 
 
 //create User Model Instance
@@ -32,7 +32,7 @@ router.get('/home', function(req, res, next) {
 });
 
 /* GET Create Survey page. */
-router.get('/surveys/create', function(req, res, next) {
+router.get('/survey/create', function(req, res, next) {
     res.render('index', { title: 'Create',
     displayName: req.user ? req.user.displayName : '',
     loggedInUser
