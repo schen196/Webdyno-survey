@@ -42,14 +42,14 @@ router.get('/', function(req, res, next) {
   });
 
 /* GET Route for displaying Add page - CREATE operation */
-router.get('/create', requireAuth, (req, res, next) => {
-  res.render('survey/create', {
+router.get('/surveys/create', requireAuth, (req, res, next) => {
+  res.render('surveys/create', {
   title: 'Create',
   displayName: req.user ? req.user.displayName : ''});
 });
 
 /* POST Route for processing Add page - CREATE operation */
-router.post('/create', requireAuth, (req, res, next) => {
+router.post('/surveys/create', requireAuth, (req, res, next) => {
   let newSurvey = Survey({
     "name": req.body.name,
     "owner": req.body.owner,
