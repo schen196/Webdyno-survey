@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 let passport = require('passport');
 
 let Survey = require('../models/survey');
-let Response = require('../models/response');
+//let Response = require('../models/response');
 
 
 //create User Model Instance
