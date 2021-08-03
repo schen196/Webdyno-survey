@@ -6,8 +6,6 @@ let Survey = require('../models/survey');
 //create User Model Instance
 let userModel = require('../models/user');
 let User = userModel.User; //alias
-
-// added
 let passport = require('passport');
 
 const { getLoggedInUser } = require("./index");
@@ -23,13 +21,8 @@ function requireAuth(req, res, next)
     next();
 }
 
-// end of added
-
 /* GET Route for surveys page - READ operation */
 router.get('/', function(req, res, next) {
-  if (!getLoggedInUser()){
-    return res.redirect("/login");
-  }
   Survey.find((err, surveyList) => {
       if(err)
       {
@@ -60,7 +53,10 @@ router.post('/create', requireAuth, (req, res, next) => {
     "owner": req.body.owner,
     "q1": req.body.q1,
     "q2": req.body.q2,
-    "q3": req.body.q3
+    "q3": req.body.q3,
+    "a1": req.body.a1,
+    "a2": req.body.a2,
+    "a3": req.body.a3
   });
   Survey.create(newSurvey, (err, Survey) => {
     if(err)
@@ -110,7 +106,10 @@ router.post('/edit/:id', requireAuth, (req, res, next) => {
     "owner": req.body.owner,
     "q1": req.body.q1,
     "q2": req.body.q2,
-    "q3": req.body.q3
+    "q3": req.body.q3,
+    "a1": req.body.a1,
+    "a2": req.body.a2,
+    "a3": req.body.a3
   });
   Survey.updateOne({_id: id}, updatedSurvey, (err) => {
     if(err)
@@ -125,7 +124,7 @@ router.post('/edit/:id', requireAuth, (req, res, next) => {
     }
   });
 });
-//update on 31/07/2021
+
 /* GET Route for displaying Answer page*/
 router.get('/answer/:id', requireAuth, (req, res, next) => {
   if (!getLoggedInUser()){
@@ -146,10 +145,39 @@ router.get('/answer/:id', requireAuth, (req, res, next) => {
     }
   });
 });
-//update on 31/07/2021 - end
-
-
-
+//update on 03/08/2021
+/* POST Route for processing Answer page - UPDATE operation */
+router.post('/answer/:id', requireAuth, (req, res, next) => {
+  if (!getLoggedInUser()){
+    return res.redirect("/login");
+  }
+  let id = req.params.id
+  let surveyAnswered = Survey({
+    "_id": id,
+    "name": req.body.name,
+    "owner": req.body.owner,
+    "q1": req.body.q1,
+    "q2": req.body.q2,
+    "q3": req.body.q3,
+    "a1": req.body.a1,
+    "a2": req.body.a2,
+    "a3": req.body.a3
+  });
+  Survey.updateOne({_id: id}, surveyAnswered, (err) => {
+    if(err)
+    {
+      console.log(err);
+      res.end(err);
+    }
+    else
+    {
+      //show summary of answered survey page
+      res.render('survey/summary', {title: 'Summary', survey: surveyAnswered,
+      displayName: req.user ? req.user.displayName : ''})
+    }
+  });
+});
+//update on 03/08/2021 - end
 
 /* GET to perform Deletion - DELETE operation */
 router.get('/delete/:id', requireAuth, (req, res, next) => {
