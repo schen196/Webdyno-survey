@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 //create a model class
 let responseModel = mongoose.Schema({
-    name: String,
+    surveyname: String,
     respondent: String,
     a1: String,
     a2: String,

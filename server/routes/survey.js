@@ -3,11 +3,10 @@ let router = express.Router();
 let mongoose = require('mongoose');
 
 let Survey = require('../models/survey');
+let Response = require('../models/response');
 //create User Model Instance
 let userModel = require('../models/user');
 let User = userModel.User; //alias
-
-// added
 let passport = require('passport');
 
 const { getLoggedInUser } = require("./index");
@@ -23,13 +22,8 @@ function requireAuth(req, res, next)
     next();
 }
 
-// end of added
-
 /* GET Route for surveys page - READ operation */
 router.get('/', function(req, res, next) {
-  if (!getLoggedInUser()){
-    return res.redirect("/login");
-  }
   Survey.find((err, surveyList) => {
       if(err)
       {
@@ -125,7 +119,7 @@ router.post('/edit/:id', requireAuth, (req, res, next) => {
     }
   });
 });
-//update on 31/07/2021
+
 /* GET Route for displaying Answer page*/
 router.get('/answer/:id', requireAuth, (req, res, next) => {
   if (!getLoggedInUser()){
@@ -146,10 +140,33 @@ router.get('/answer/:id', requireAuth, (req, res, next) => {
     }
   });
 });
-//update on 31/07/2021 - end
 
-
-
+//update on 09/08/2021
+/* POST Route for processing Answer page - CREATE operation */
+router.post('/answer/:id', requireAuth, (req, res, next) => {
+  let newResponse = Response({
+    "surveyname": req.body.surveyname,
+    "respondent": req.body.respondent,
+    "a1": req.body.a1,
+    "a2": req.body.a2,
+    "a3": req.body.a3
+  });
+  Response.create(newResponse, (err, Response) => {
+    if(err)
+    {
+      console.log(err);
+      res.end(err);
+    }
+    else
+    {
+      //refresh survey list
+      //res.redirect('/surveys');
+      res.render('survey/summary', {title: 'Summary', response: Response,
+      displayName: req.user ? req.user.displayName : ''})
+    }
+  });
+});
+//update on 09/08/2021 - end
 
 /* GET to perform Deletion - DELETE operation */
 router.get('/delete/:id', requireAuth, (req, res, next) => {
