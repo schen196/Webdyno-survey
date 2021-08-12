@@ -140,37 +140,6 @@ router.get('/answer/:id', requireAuth, (req, res, next) => {
     }
   });
 });
-//update on 03/08/2021
-/* POST Route for processing Answer page - UPDATE operation */
-/*router.post('/answer/:id', requireAuth, (req, res, next) => {
-  if (!getLoggedInUser()){
-    return res.redirect("/login");
-  }
-  let id = req.params.id
-  let surveyAnswered = Survey({
-    "_id": id,
-    "name": req.body.name,
-    "owner": req.body.owner,
-    "q1": req.body.q1,
-    "q2": req.body.q2,
-    "q3": req.body.q3
-  });
-  Survey.updateOne({_id: id}, surveyAnswered, (err) => {
-    if(err)
-    {
-      console.log(err);
-      res.end(err);
-    }
-    else
-    {
-      //show summary of answered survey page
-      res.render('survey/summary', {title: 'Summary', survey: surveyAnswered,
-      displayName: req.user ? req.user.displayName : ''})
-    }
-  });
-});
-*/
-//update on 03/08/2021 - end
 
 //update on 09/08/2021
 /* POST Route for processing Answer page - CREATE operation */
