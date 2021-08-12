@@ -18,22 +18,39 @@
               required>
           </div>
 
+          <div class="form-group">
+            <label for="surveynameTextField">Survey Name:</label>
+            <input type="text" class="form-control"
+            id="surveynameTextField" 
+            placeholder="Enter Survey Name"
+            name="surveyname"
+            required>
+          </div>
+          
+          <div class="form-group">
+            <label for="respondentTextField">Respondent Name:</label>
+            <input type="text" class="form-control"
+            id="respondentTextField" 
+            placeholder="Enter Respondent Name"
+            name="respondent"
+            
+            required>
+          </div>
+
           <br>
           <div class="form-group">
             <input type="text" class="form-control"  disabled="true"
             id="q1TextField" 
-            placeholder="Enter Question 1"
             name="q1"
             value="<%= survey.q1 %>"
             required>
           </div>
         <div class="form-group">
-          <label for="a1TextField">Answer 1:</label>
           <input type="text" class="form-control"
           id="a1TextField" 
           placeholder="Answer for Question 1"
           name="a1"
-          value="<%= survey.a1 %>"
+
           required>
         </div>
 
@@ -42,18 +59,16 @@
         <div class="form-group">
           <input type="text" class="form-control"  disabled="true"
           id="q2TextField"
-          placeholder="Enter Question 2"
           name="q2"
           value="<%= survey.q2 %>"
           required>
         </div>
         <div class="form-group">
-          <label for="a2TextField">Answer 2:</label>
           <input type="text" class="form-control"
           id="a2TextField" 
           placeholder="Answer for Question 2"
           name="a2"
-          value="<%= survey.a2 %>"
+
           required>
         </div>
 
@@ -62,18 +77,16 @@
         <div class="form-group">
           <input type="text" class="form-control"  disabled="true"
           id="q3TextField"
-          placeholder="Enter Question 3"
           name="q3"
           value="<%= survey.q3 %>"
           required>
         </div>
         <div class="form-group">
-          <label for="a3TextField">Answer 3:</label>
           <input type="text" class="form-control"
           id="a3TextField" 
           placeholder="Answer for Question 3"
           name="a3"
-          value="<%= survey.a3 %>"
+
           required>
         </div>
 
